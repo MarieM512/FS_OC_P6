@@ -33,5 +33,4 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "sSUBSCRIPTION", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private List<Topic> topics;
-    
 }
