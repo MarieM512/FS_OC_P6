@@ -2,8 +2,6 @@ package com.openclassrooms.mddapi.model;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Retry.Topic;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +29,6 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "sSUBSCRIPTION", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    @JoinTable(name = "SUBSCRIPTION", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private List<Topic> topics;
 }
