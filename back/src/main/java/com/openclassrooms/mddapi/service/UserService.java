@@ -64,4 +64,12 @@ public class UserService {
         }
         return passwordEncoder.matches(user.getPassword(), userRegistered.getPassword());
     }
+
+    public User getUser(String identifier) {
+        if (identifier.contains("@") && identifier.contains(".")) {
+            return userRepository.findByEmail(identifier);
+        } else {
+            return userRepository.findByUsername(identifier);
+        }
+    }
 }

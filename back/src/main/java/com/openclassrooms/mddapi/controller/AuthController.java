@@ -2,15 +2,19 @@ package com.openclassrooms.mddapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.dto.UserLoginDTO;
 import com.openclassrooms.mddapi.model.dto.UserRegisterDTO;
 import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -51,6 +55,19 @@ public class AuthController {
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(401).body("Email / Username or password invalid");
+        }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getUser(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+            String identifier = jwtService.decodeToken(token);
+            User user = userService.getUser(identifier);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).build();
         }
     }
 }
