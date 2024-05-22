@@ -72,4 +72,15 @@ public class UserService {
             return userRepository.findByUsername(identifier);
         }
     }
+
+    public User updateUser(User user) {
+        User currentUser = userRepository.findById(user.getId()).orElse(null);
+        if (user.getUsername() != null) { // TODO: check with front if null or empty
+            currentUser.setUsername(user.getUsername());;
+        }
+        if (user.getEmail() != null) { // TODO: check with front if null or empty
+            currentUser.setEmail(user.getEmail());
+        }
+        return userRepository.save(currentUser);
+    }
 }

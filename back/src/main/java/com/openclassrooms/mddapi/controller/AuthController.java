@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,6 +67,22 @@ public class AuthController {
             String identifier = jwtService.decodeToken(token);
             User user = userService.getUser(identifier);
             return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).build();
+        }
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<User> updateUser(HttpServletRequest request, String username, String email) { // TODO: check le token
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+            String identifier = jwtService.decodeToken(token);
+            User user = userService.getUser(identifier);
+            user.setUsername(username);
+            user.setEmail(email);
+            User userRegistered = userService.updateUser(user);
+            return ResponseEntity.ok(userRegistered);
         } else {
             return ResponseEntity.status(401).build();
         }
