@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.model.dto.UserLoginDTO;
 import com.openclassrooms.mddapi.model.dto.UserRegisterDTO;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
@@ -37,11 +38,30 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Boolean isUserAlreadyExists(UserRegisterDTO user) {
+    public Boolean isUserEmailExists(UserRegisterDTO user) {
         if (userRepository.findByEmail(user.getEmail()) == null) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public Boolean isUserUsernameExists(UserRegisterDTO user) {
+        if (userRepository.findByUsername(user.getUsername()) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean canConnect(UserLoginDTO user) {
+        User userRegistered = userRepository.findByUsername(user.getIdentifier());
+        if (user.getIdentifier().contains("@") && user.getIdentifier().contains(".")) {
+            userRegistered = userRepository.findByEmail(user.getIdentifier());
+        }
+        if (userRegistered == null) {
+            return false;
+        }
+        return passwordEncoder.matches(user.getPassword(), userRegistered.getPassword());
     }
 }
