@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.PostService;
 import com.openclassrooms.mddapi.service.TopicService;
@@ -69,8 +69,8 @@ public class PostController {
     public ResponseEntity<?> getAllPosts(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            List<Post> posts = postRepository.find
-            return ResponseEntity.ok(user);
+            List<Post> posts = postService.getAllPosts();
+            return ResponseEntity.ok(posts);
         } else {
             return ResponseEntity.status(401).build();
         }

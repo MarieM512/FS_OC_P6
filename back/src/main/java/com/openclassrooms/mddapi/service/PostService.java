@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,9 @@ public class PostService {
     public Post create(Post post, User user) {
         post.setUser(user);
         return postRepository.save(post);
+    }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }
