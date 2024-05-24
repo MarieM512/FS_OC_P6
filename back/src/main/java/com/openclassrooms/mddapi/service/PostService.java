@@ -26,10 +26,6 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // public List<Post> getAllPosts() {
-    //     return postRepository.findAll();
-    // }
-
     public List<Post> getPostsSubscribe(List<Topic> topicSub) {
         List<Post> allPosts = postRepository.findAll();
 
