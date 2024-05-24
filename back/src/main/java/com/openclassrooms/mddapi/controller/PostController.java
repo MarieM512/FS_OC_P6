@@ -49,8 +49,8 @@ public class PostController {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
-            String identifier = jwtService.decodeToken(token);
-            User user = userService.getUser(identifier);
+            String email = jwtService.decodeToken(token);
+            User user = userService.getUser(email);
             
             if (post.getTopic() == null || post.getSubject().isEmpty() || post.getContent().isEmpty()) { // TODO: check empty fields in front
                 return ResponseEntity.badRequest().body("Please fill all fields");
@@ -67,10 +67,13 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public ResponseEntity<?> getAllPosts(HttpServletRequest request) {
+    public ResponseEntity<?> getPostsSubscribe(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            List<Post> posts = postService.getAllPosts();
+            String token = bearerToken.substring(7);
+            String email = jwtService.decodeToken(token);
+            User user = userService.getUser(email);
+            List<Post> posts = postService.getPostsSubscribe(user.getTopics());
             return ResponseEntity.ok(posts);
         } else {
             return ResponseEntity.status(401).build();

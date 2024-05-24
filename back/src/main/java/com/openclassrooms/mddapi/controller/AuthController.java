@@ -36,10 +36,10 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO user) {
         if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) { // TODO: Check empty fields in front (null or isEmpty())
             return ResponseEntity.badRequest().body("Please fill all fields");
-        } else if (userService.isUserEmailExists(user)) {
+        } else if (userService.isUserEmailExists(user.getEmail())) {
             return ResponseEntity.status(409).body("Email already exist");
-        } else if (userService.isUserUsernameExists(user)) {
-            return ResponseEntity.status(409).body("Username already exist");
+        } else if (!userService.isValidPassword(user.getPassword())) {
+            return ResponseEntity.badRequest().body("Password does not meet the conditions");
         } else {
             userService.register(user);
             String token = jwtService.generateToken(user.getEmail());
@@ -49,13 +49,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
-        if (user.getIdentifier() == null || user.getPassword() == null) { // TODO: Check empty fields in front (null or isEmpty())
+        if (user.getEmail() == null || user.getPassword() == null) { // TODO: Check empty fields in front (null or isEmpty())
             return ResponseEntity.badRequest().body("Please fill all fields");
         } else if (userService.canConnect(user)) {
-            String token = jwtService.generateToken(user.getIdentifier());
+            String token = jwtService.generateToken(user.getEmail());
             return ResponseEntity.ok(token);
         } else {
-            return ResponseEntity.status(401).body("Email / Username or password invalid");
+            return ResponseEntity.status(401).body("Email or password invalid");
         }
     }
 
@@ -64,8 +64,8 @@ public class AuthController {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
-            String identifier = jwtService.decodeToken(token);
-            User user = userService.getUser(identifier);
+            String email = jwtService.decodeToken(token);
+            User user = userService.getUser(email);
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(401).build();
@@ -73,15 +73,26 @@ public class AuthController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<User> updateUser(HttpServletRequest request, String username, String email) { // TODO: check le token
+    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UserRegisterDTO user) { // TODO: check le token
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
-            String identifier = jwtService.decodeToken(token);
-            User user = userService.getUser(identifier);
-            user.setUsername(username);
-            user.setEmail(email);
-            User userRegistered = userService.updateUser(user);
+            String emailToken = jwtService.decodeToken(token);
+            User currentUser = userService.getUser(emailToken);
+
+            if (userService.isUserEmailExists(user.getEmail())) {
+                return ResponseEntity.status(409).body("Email already exist");
+            }
+
+            if (!userService.isValidPassword(user.getPassword())) {
+                return ResponseEntity.badRequest().body("Password does not meet the conditions");
+            }
+
+            currentUser.setUsername(user.getUsername());
+            currentUser.setEmail(user.getEmail());
+            currentUser.setPassword(user.getPassword());
+
+            User userRegistered = userService.updateUser(currentUser);
             return ResponseEntity.ok(userRegistered);
         } else {
             return ResponseEntity.status(401).build();

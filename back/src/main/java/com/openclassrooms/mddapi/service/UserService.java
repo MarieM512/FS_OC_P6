@@ -1,5 +1,8 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,27 +41,23 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Boolean isUserEmailExists(UserRegisterDTO user) {
-        if (userRepository.findByEmail(user.getEmail()) == null) {
+    public Boolean isUserEmailExists(String email) {
+        if (userRepository.findByEmail(email) == null) {
             return false;
         } else {
             return true;
         }
     }
 
-    public Boolean isUserUsernameExists(UserRegisterDTO user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
-            return false;
-        } else {
-            return true;
-        }
+    public Boolean isValidPassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
     public Boolean canConnect(UserLoginDTO user) {
-        User userRegistered = userRepository.findByUsername(user.getIdentifier());
-        if (user.getIdentifier().contains("@") && user.getIdentifier().contains(".")) {
-            userRegistered = userRepository.findByEmail(user.getIdentifier());
-        }
+        User userRegistered = userRepository.findByEmail(user.getEmail());
         if (userRegistered == null) {
             return false;
         }
@@ -66,11 +65,7 @@ public class UserService {
     }
 
     public User getUser(String identifier) {
-        if (identifier.contains("@") && identifier.contains(".")) {
-            return userRepository.findByEmail(identifier);
-        } else {
-            return userRepository.findByUsername(identifier);
-        }
+        return userRepository.findByEmail(identifier);
     }
 
     public User updateUser(User user) {
