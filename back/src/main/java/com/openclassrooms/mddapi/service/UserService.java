@@ -41,8 +41,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Boolean isUserEmailExists(UserRegisterDTO user) {
-        if (userRepository.findByEmail(user.getEmail()) == null) {
+    public Boolean isUserEmailExists(String email) {
+        if (userRepository.findByEmail(email) == null) {
             return false;
         } else {
             return true;
@@ -65,11 +65,7 @@ public class UserService {
     }
 
     public User getUser(String identifier) {
-        if (identifier.contains("@") && identifier.contains(".")) {
-            return userRepository.findByEmail(identifier);
-        } else {
-            return userRepository.findByUsername(identifier);
-        }
+        return userRepository.findByEmail(identifier);
     }
 
     public User updateUser(User user) {
