@@ -55,10 +55,7 @@ public class UserService {
     }
 
     public Boolean canConnect(UserLoginDTO user) {
-        User userRegistered = userRepository.findByUsername(user.getIdentifier());
-        if (user.getIdentifier().contains("@") && user.getIdentifier().contains(".")) {
-            userRegistered = userRepository.findByEmail(user.getIdentifier());
-        }
+        User userRegistered = userRepository.findByEmail(user.getEmail());
         if (userRegistered == null) {
             return false;
         }
