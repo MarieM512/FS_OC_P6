@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,15 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
     
-     public Comment create(String content, User user, Post post) {
+    public Comment create(String content, User user, Post post) {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setPost(post);
         comment.setContent(content);
         return commentRepository.save(comment);
+    }
+
+    public List<Comment> getCommentsFromPost(Long id) {
+        return commentRepository.findByPostId(id);
     }
 }
