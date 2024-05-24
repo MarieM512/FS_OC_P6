@@ -73,21 +73,26 @@ public class AuthController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<?> updateUser(HttpServletRequest request, String username, String email) { // TODO: check le token
+    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UserRegisterDTO user) { // TODO: check le token
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
             String emailToken = jwtService.decodeToken(token);
-            User user = userService.getUser(emailToken);
+            User currentUser = userService.getUser(emailToken);
 
-            if (userService.isUserEmailExists(email)) {
+            if (userService.isUserEmailExists(user.getEmail())) {
                 return ResponseEntity.status(409).body("Email already exist");
             }
 
-            user.setUsername(username);
-            user.setEmail(email);
+            if (!userService.isValidPassword(user.getPassword())) {
+                return ResponseEntity.badRequest().body("Password does not meet the conditions");
+            }
 
-            User userRegistered = userService.updateUser(user);
+            currentUser.setUsername(user.getUsername());
+            currentUser.setEmail(user.getEmail());
+            currentUser.setPassword(user.getPassword());
+
+            User userRegistered = userService.updateUser(currentUser);
             return ResponseEntity.ok(userRegistered);
         } else {
             return ResponseEntity.status(401).build();
