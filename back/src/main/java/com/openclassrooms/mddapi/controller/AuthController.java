@@ -36,7 +36,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO user) {
         if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) { // TODO: Check empty fields in front (null or isEmpty())
             return ResponseEntity.badRequest().body("Please fill all fields");
-        } else if (userService.isUserEmailExists(user)) {
+        } else if (userService.isUserEmailExists(user.getEmail())) {
             return ResponseEntity.status(409).body("Email already exist");
         } else if (!userService.isValidPassword(user.getPassword())) {
             return ResponseEntity.badRequest().body("Password does not meet the conditions");
@@ -64,8 +64,8 @@ public class AuthController {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
-            String identifier = jwtService.decodeToken(token);
-            User user = userService.getUser(identifier);
+            String email = jwtService.decodeToken(token);
+            User user = userService.getUser(email);
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(401).build();
@@ -73,14 +73,20 @@ public class AuthController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<User> updateUser(HttpServletRequest request, String username, String email) { // TODO: check le token
+    public ResponseEntity<?> updateUser(HttpServletRequest request, String username, String email) { // TODO: check le token
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
-            String identifier = jwtService.decodeToken(token);
-            User user = userService.getUser(identifier);
+            String emailToken = jwtService.decodeToken(token);
+            User user = userService.getUser(emailToken);
+
+            if (userService.isUserEmailExists(email)) {
+                return ResponseEntity.status(409).body("Email already exist");
+            }
+
             user.setUsername(username);
             user.setEmail(email);
+
             User userRegistered = userService.updateUser(user);
             return ResponseEntity.ok(userRegistered);
         } else {
