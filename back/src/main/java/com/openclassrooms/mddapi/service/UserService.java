@@ -1,5 +1,8 @@
 package com.openclassrooms.mddapi.service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,12 +49,11 @@ public class UserService {
         }
     }
 
-    public Boolean isUserUsernameExists(UserRegisterDTO user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
-            return false;
-        } else {
-            return true;
-        }
+    public Boolean isValidPassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
     public Boolean canConnect(UserLoginDTO user) {

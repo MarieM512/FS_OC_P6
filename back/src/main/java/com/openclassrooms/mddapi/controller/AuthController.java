@@ -38,8 +38,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Please fill all fields");
         } else if (userService.isUserEmailExists(user)) {
             return ResponseEntity.status(409).body("Email already exist");
-        } else if (userService.isUserUsernameExists(user)) {
-            return ResponseEntity.status(409).body("Username already exist");
+        } else if (!userService.isValidPassword(user.getPassword())) {
+            return ResponseEntity.badRequest().body("Password does not meet the conditions");
         } else {
             userService.register(user);
             String token = jwtService.generateToken(user.getEmail());
