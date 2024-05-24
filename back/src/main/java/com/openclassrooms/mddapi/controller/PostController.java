@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +72,17 @@ public class PostController {
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             List<Post> posts = postService.getAllPosts();
             return ResponseEntity.ok(posts);
+        } else {
+            return ResponseEntity.status(401).build();
+        }
+    }
+
+    @GetMapping("/post/{id}")
+    public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable("id") Long id) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            Post post = postService.getPostById(id);
+            return ResponseEntity.ok(post);
         } else {
             return ResponseEntity.status(401).build();
         }
