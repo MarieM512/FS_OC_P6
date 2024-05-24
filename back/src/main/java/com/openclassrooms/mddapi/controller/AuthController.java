@@ -49,13 +49,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
-        if (user.getIdentifier() == null || user.getPassword() == null) { // TODO: Check empty fields in front (null or isEmpty())
+        if (user.getEmail() == null || user.getPassword() == null) { // TODO: Check empty fields in front (null or isEmpty())
             return ResponseEntity.badRequest().body("Please fill all fields");
         } else if (userService.canConnect(user)) {
-            String token = jwtService.generateToken(user.getIdentifier());
+            String token = jwtService.generateToken(user.getEmail());
             return ResponseEntity.ok(token);
         } else {
-            return ResponseEntity.status(401).body("Email / Username or password invalid");
+            return ResponseEntity.status(401).body("Email or password invalid");
         }
     }
 
