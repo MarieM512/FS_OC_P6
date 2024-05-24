@@ -61,6 +61,25 @@ public class TopicController {
             currentTopicList.add(topic);
             user.setTopics(currentTopicList);
             userService.updateUser(user);
+
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).build();
+        }
+    }
+
+    @PutMapping("/unsubscribe")
+    public ResponseEntity<?> unsubscribe(HttpServletRequest request, @RequestBody Topic topic) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+            String email = jwtService.decodeToken(token);
+            User user = userService.getUser(email);
+
+            List<Topic> currentTopicList = user.getTopics();
+            currentTopicList.remove(topic);
+            user.setTopics(currentTopicList);
+            userService.updateUser(user);
             
             return ResponseEntity.ok(user);
         } else {
