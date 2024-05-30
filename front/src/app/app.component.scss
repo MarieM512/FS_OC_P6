@@ -1,7 +1,15 @@
-header {
+.image-container {
     border-bottom: 1px solid;
 }
 
-header img {
-    max-width: 25%;
+header {
+    img {
+        max-width: 25%;
+    }
+}
+
+@media (max-width: 500px) {
+    .image-container {
+        display: none;
+    }
 }

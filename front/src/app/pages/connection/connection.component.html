@@ -1,1 +1,46 @@
-<p>connection works!</p>
+<div class="container">
+    <div class="image-container">
+        <img src="/assets/logo_p6.png" alt="logo" />
+    </div>
+    <p>{{ title }}</p>
+
+    <form *ngIf="type === 'login'" class="form-container" [formGroup]="loginForm" (ngSubmit)="submit()">
+        <mat-form-field fxFlex class="input">
+            <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe"
+                formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ buttonTitle }}</button>
+        </div>
+            
+            <!-- <p *ngIf="onError" class="error">An error occurred</p> -->
+    </form>
+
+    <form *ngIf="type === 'signup'" class="form" [formGroup]="signupForm" (ngSubmit)="submit()">
+        <mat-form-field class="input">
+            <input matInput placeholder="Nom d'utilisateur" formControlName="username">
+        </mat-form-field>
+        <mat-form-field class="input">
+            <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field class="input">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe"
+                formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">{{ buttonTitle }}</button>
+        </div>
+        <!-- <p *ngIf="onError" class="error">An error occurred</p> -->
+    </form>
+</div>

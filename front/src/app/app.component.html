@@ -1,4 +1,9 @@
-<header *ngIf="!isRouteActive('')">
-    <img src="/assets/logo_p6.png" alt="logo" />
+<header *ngIf="isRouteActive('/log')">
+    <div class="image-container">
+        <img src="/assets/logo_p6.png" alt="logo" />
+    </div>
+    <button mat-icon-button routerLink="">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
 </header>
 <router-outlet></router-outlet>

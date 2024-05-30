@@ -5,10 +5,12 @@
   width: 100%;
 }
 
-.image-container img {
-  margin-top: 100px;
-  max-width: 100%;
-  height: auto;
+.image-container {
+  img {
+    margin-top: 100px;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .button-container {
@@ -16,8 +18,10 @@
   gap: 2em;
 }
 
-.button-container button {
-  width: 150px;
+.button-container {
+  button {
+    width: 150px;
+  }
 }
 
 @media (max-width: 500px) {
