@@ -14,6 +14,7 @@ import com.openclassrooms.mddapi.model.dto.UserLoginDTO;
 import com.openclassrooms.mddapi.model.dto.UserRegisterDTO;
 import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.UserService;
+import com.openclassrooms.mddapi.model.response.LogResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -34,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO user) {
-        if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) { // TODO: Check empty fields in front (null or isEmpty())
+        if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
             return ResponseEntity.badRequest().body("Please fill all fields");
         } else if (userService.isUserEmailExists(user.getEmail())) {
             return ResponseEntity.status(409).body("Email already exist");
@@ -43,17 +44,19 @@ public class AuthController {
         } else {
             userService.register(user);
             String token = jwtService.generateToken(user.getEmail());
-            return ResponseEntity.ok(token);
+            LogResponse logResponse = new LogResponse(token);
+            return ResponseEntity.ok(logResponse);
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
-        if (user.getEmail() == null || user.getPassword() == null) { // TODO: Check empty fields in front (null or isEmpty())
+        if (user.getEmail() == null || user.getPassword() == null) {
             return ResponseEntity.badRequest().body("Please fill all fields");
         } else if (userService.canConnect(user)) {
             String token = jwtService.generateToken(user.getEmail());
-            return ResponseEntity.ok(token);
+            LogResponse logResponse = new LogResponse(token);
+            return ResponseEntity.ok(logResponse);
         } else {
             return ResponseEntity.status(401).body("Email or password invalid");
         }
