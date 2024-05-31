@@ -9,6 +9,10 @@
                 </span>
             </div>
         </div>
+        <div *ngIf="!isRouteActive('/log')" class="image-container-small-screen">
+            <img src="/assets/logo_p6.png" alt="logo" />
+            <mat-icon>menu</mat-icon>
+        </div>
         <button *ngIf="isRouteActive('/log')" mat-icon-button routerLink="">
             <mat-icon>arrow_back</mat-icon>
         </button>

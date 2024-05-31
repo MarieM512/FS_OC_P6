@@ -30,8 +30,26 @@ header {
     color: #6C5CCF;
 }
 
+.image-container-small-screen {
+    display: none;
+}
+
 @media (max-width: 500px) {
     .image-container {
         display: none;
+    }
+
+    .image-container-small-screen {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid;
+
+        mat-icon {
+            width: auto;
+            height: 100%;
+            font-size: xx-large;
+            margin-right: 1em;
+        }
     }
 }
