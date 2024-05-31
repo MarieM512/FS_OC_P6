@@ -28,6 +28,13 @@
     }
 }
 
+.error-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    color: crimson;
+}
+
 @media (max-width: 500px) {
     .image-container {
         display: block;

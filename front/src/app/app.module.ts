@@ -11,9 +11,11 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ConnectionComponent } from './pages/connection/connection.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PostListComponent } from './pages/post-list/post-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ConnectionComponent],
+  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatCardModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
