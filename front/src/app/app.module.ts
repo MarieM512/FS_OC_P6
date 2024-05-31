@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,9 +14,11 @@ import { ConnectionComponent } from './pages/connection/connection.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PostListComponent } from './pages/post-list/post-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TopicListComponent } from './pages/topic-list/topic-list.component';
+import { AccountComponent } from './pages/account/account.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent],
+  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatIconModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,11 +1,33 @@
 .image-container {
     border-bottom: 1px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .link-container {
+        display: flex;
+        gap: 2em;
+        margin-right: 2em;
+        align-items: center;
+        font-size: large;
+
+        mat-icon {
+            width: 100%;
+            height: 100%;
+            font-size: xx-large;
+        }
+    }
 }
 
 header {
     img {
         max-width: 25%;
     }
+}
+
+.active {
+    color: #6C5CCF;
 }
 
 @media (max-width: 500px) {
