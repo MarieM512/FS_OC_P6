@@ -69,6 +69,5 @@ export class ConnectionComponent implements OnInit {
         error: error => this.onError = error.error
       });
     }
-    console.log("submit")
   }
 }
