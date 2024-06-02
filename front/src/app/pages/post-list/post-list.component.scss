@@ -1,0 +1,13 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 2em;
+    align-items: baseline;
+}
+
+.filter-container {
+    display: flex;
+    gap: 1em;
+    font-size: large;
+    align-items: center;
+}
