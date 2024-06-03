@@ -5,6 +5,7 @@ import { ConnectionComponent } from './pages/connection/connection.component';
 import { PostListComponent } from './pages/post-list/post-list.component';
 import { TopicListComponent } from './pages/topic-list/topic-list.component';
 import { AccountComponent } from './pages/account/account.component';
+import { PostFormComponent } from './pages/post-form/post-form.component';
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'log/:type', component: ConnectionComponent },
   { path: 'posts', component: PostListComponent },
   { path: 'topics', component: TopicListComponent },
-  { path: 'account', component: AccountComponent }
+  { path: 'account', component: AccountComponent },
+  { path: 'posts/create', component: PostFormComponent }
 ];
 
 @NgModule({

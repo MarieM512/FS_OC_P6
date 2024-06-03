@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,9 +16,10 @@ import { PostListComponent } from './pages/post-list/post-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TopicListComponent } from './pages/topic-list/topic-list.component';
 import { AccountComponent } from './pages/account/account.component';
+import { PostFormComponent } from './pages/post-form/post-form.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent],
+  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent, PostFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

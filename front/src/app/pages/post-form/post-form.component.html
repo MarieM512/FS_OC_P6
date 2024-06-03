@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>Créer un nouvel article</h1>
+
+    <form class="form-container" [formGroup]="postForm" (ngSubmit)="submit()">
+        <mat-form-field fxFlex class="input">
+            <mat-label>Sélectionner un thème</mat-label>
+            <input matInput formControlName="topic">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <mat-label>Titre de l'article</mat-label>
+            <input matInput formControlName="subject">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <mat-label>Contenu de l'article</mat-label>
+            <textarea matInput formControlName="content"></textarea>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">Créer</button>
+        </div>
+        <!-- <div class="error-container">
+            <p *ngIf="onError" class="error">{{ onError }}</p>
+        </div> -->
+    </form>
+</div>

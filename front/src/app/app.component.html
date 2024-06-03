@@ -17,6 +17,10 @@
             <button *ngIf="isRouteActive('/log')" mat-icon-button routerLink="">
                 <mat-icon>arrow_back</mat-icon>
             </button>
+
+            <button *ngIf="isRouteActive('posts/create')" mat-icon-button routerLink="posts">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
         
             <aside [ngClass]="{'hidden': isSidebarHidden}" class="sidebar">
                 <div *ngIf="!isRouteActive('/log')" class="link-container-menu">
