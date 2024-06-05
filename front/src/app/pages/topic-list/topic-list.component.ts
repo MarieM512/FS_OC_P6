@@ -11,10 +11,18 @@ import { TopicService } from 'src/app/services/topic.service';
 export class TopicListComponent implements OnInit {
 
   topics$ = this.topicService.getTopics()
+  user$ = this.authService.getUser()
+  userTopic: Topic[] = []
+  topic = { id: 1, name: "Mobile", description: "Rassemble toute l'actualité autour du développement mobile."}
 
   constructor(private topicService: TopicService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.user$.subscribe({
+      next: (user) => {
+        this.userTopic = user.topics
+      }
+    })
   }
 
   subscribe(topic: Topic) {
@@ -25,5 +33,9 @@ export class TopicListComponent implements OnInit {
       },
       error: error => console.log(error)
     });
+  }
+
+  isSubscribed(topicId: number) {
+    return this.userTopic.find((topic) => topic.id === topicId)
   }
 }

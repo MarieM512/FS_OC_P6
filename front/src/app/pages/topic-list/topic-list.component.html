@@ -4,7 +4,7 @@
                 <h2>{{ topic.name }}</h2>
                 <p>Description: {{ topic.description }}</p>
                 <div class="button">
-                    <button mat-raised-button color="primary" (click)="subscribe(topic)">S'abonner</button>
+                    <button mat-raised-button color="primary" (click)="subscribe(topic)" [disabled]="isSubscribed(topic.id)">S'abonner</button>
                 </div>
         </div>
     </mat-grid-tile>
