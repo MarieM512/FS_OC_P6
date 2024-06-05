@@ -4,7 +4,9 @@
     <form class="form-container" [formGroup]="postForm" (ngSubmit)="submit()">
         <mat-form-field fxFlex class="input">
             <mat-label>Sélectionner un thème</mat-label>
-            <input matInput formControlName="topic">
+            <mat-select formControlName="topicId">
+                <mat-option *ngFor="let topic of topics$ | async" value={{topic.id}}>{{ topic.name }}</mat-option>
+            </mat-select>
         </mat-form-field>
         <mat-form-field fxFlex class="input">
             <mat-label>Titre de l'article</mat-label>

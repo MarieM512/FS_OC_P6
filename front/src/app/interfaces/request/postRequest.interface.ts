@@ -1,5 +1,5 @@
 export interface PostRequest {
-    topic: string;
+    topicId: number;
     subject: string;
     content: string;
 }
