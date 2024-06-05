@@ -7,4 +7,5 @@ export interface Post {
     subject: string;
     content: string;
     user: User;
+    createdAt: Date;
 }

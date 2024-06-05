@@ -9,11 +9,15 @@ import { Observable } from 'rxjs';
 })
 export class PostService {
 
-  private pathService = 'api/post';
+  private pathService = 'api/post'
 
   constructor(private httpClient: HttpClient) { }
 
   public create(postRequest: PostRequest): Observable<Post> {
-    return this.httpClient.post<Post>(`${this.pathService}/post`, postRequest);
+    return this.httpClient.post<Post>(this.pathService, postRequest)
+  }
+
+  public getPosts(): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(this.pathService)
   }
 }

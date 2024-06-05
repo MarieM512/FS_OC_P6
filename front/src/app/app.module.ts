@@ -20,9 +20,10 @@ import { TopicListComponent } from './pages/topic-list/topic-list.component';
 import { AccountComponent } from './pages/account/account.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { JwtInterceptor } from './configuration/jwt.interceptor';
+import { PostDetailComponent } from './pages/post-detail/post-detail.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent, PostFormComponent],
+  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent, PostFormComponent, PostDetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

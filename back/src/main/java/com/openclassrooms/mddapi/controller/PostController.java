@@ -45,7 +45,7 @@ public class PostController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/post")
+    @PostMapping("")
     public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody PostDTO post) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -65,7 +65,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/post")
+    @GetMapping("")
     public ResponseEntity<?> getPostsSubscribe(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

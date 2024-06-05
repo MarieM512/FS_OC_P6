@@ -11,3 +11,26 @@
     font-size: large;
     align-items: center;
 }
+
+.list-container {
+    margin: 2em;
+}
+
+.card-container {
+    background-color: #F5F5F5;
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 2em;
+    justify-content: space-evenly;
+}
+
+.desc {
+    display: flex;
+    flex-direction: row;
+}

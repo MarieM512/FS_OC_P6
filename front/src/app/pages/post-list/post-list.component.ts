@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
+import { Post } from 'src/app/interfaces/response/post.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-post-list',
@@ -8,12 +12,26 @@ import { Router } from '@angular/router';
 })
 export class PostListComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  posts$ = this.postService.getPosts()
+
+  constructor(private router: Router, private postService: PostService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.posts$.subscribe({
+      next(value) {
+        value.forEach((post) => {
+          console.log(post)
+        })
+      },
+    })
+    console.log(this.posts$)
   }
 
   create() {
     this.router.navigate(['/posts/create'])
+  }
+
+  detail(post: Post) {
+    console.log(post)
   }
 }
