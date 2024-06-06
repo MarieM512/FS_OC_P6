@@ -8,6 +8,7 @@ import { IsActiveMatchOptions, Router } from '@angular/router';
 })
 export class AppComponent {
   private router = inject(Router);
+  isSidebarHidden = true
 
   title = 'front';
 
@@ -19,5 +20,9 @@ export class AppComponent {
       matrixParams: 'ignored'
     };
     return this.router.isActive(url, matchOptions);
+  }
+
+  toggleMenu() {
+    this.isSidebarHidden = !this.isSidebarHidden
   }
 }

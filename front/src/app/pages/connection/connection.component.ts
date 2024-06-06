@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailValidator, FormBuilder, Validators } from '@angular/forms';
-import { LoginRequest } from 'src/app/interfaces/loginRequest.interface';
-import { SignupRequest } from 'src/app/interfaces/signupRequest.interface';
+import { LoginRequest } from 'src/app/interfaces/request/loginRequest.interface';
+import { SignupRequest } from 'src/app/interfaces/request/signupRequest.interface';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -69,6 +69,5 @@ export class ConnectionComponent implements OnInit {
         error: error => this.onError = error.error
       });
     }
-    console.log("submit")
   }
 }

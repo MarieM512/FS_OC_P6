@@ -1,0 +1,11 @@
+<mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px" class="list-container">
+    <mat-grid-tile *ngFor="let topic of topics$ | async" class="card-container">
+        <div class="info">
+                <h2>{{ topic.name }}</h2>
+                <p>Description: {{ topic.description }}</p>
+                <div class="button">
+                    <button mat-raised-button color="primary" (click)="subscribe(topic)" [disabled]="isSubscribed(topic.id)">S'abonner</button>
+                </div>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

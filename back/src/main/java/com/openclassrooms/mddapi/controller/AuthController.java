@@ -63,7 +63,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> getUser(HttpServletRequest request) {
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
@@ -73,6 +73,8 @@ public class AuthController {
         } else {
             return ResponseEntity.status(401).build();
         }
+        // System.out.print(request.getUserPrincipal().getName());
+        // return ResponseEntity.ok("ok");
     }
 
     @PutMapping("/me")

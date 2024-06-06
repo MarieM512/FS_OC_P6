@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.model.dto.PostDTO;
 import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.PostService;
 import com.openclassrooms.mddapi.service.TopicService;
@@ -44,29 +45,27 @@ public class PostController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/post")
-    public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody Post post) {
+    @PostMapping("")
+    public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody PostDTO post) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
             String email = jwtService.decodeToken(token);
             User user = userService.getUser(email);
             
-            if (post.getTopic() == null || post.getSubject().isEmpty() || post.getContent().isEmpty()) { // TODO: check empty fields in front
+            if (post.getTopicId() == null || post.getSubject().isEmpty() || post.getContent().isEmpty()) { // TODO: check empty fields in front
+                System.out.println(post);
                 return ResponseEntity.badRequest().body("Please fill all fields");
-            } else if (topicService.getTopicById(post.getTopic().getId()) == null) {
-                topicService.create(post.getTopic()); // TODO: check registration
             }
-            Topic topic = topicService.getTopicByName(post.getTopic().getName());
-            post.setTopic(topic);
-            Post postRegistered = postService.create(post, user);
+            Topic topic = topicService.getTopicById(post.getTopicId());
+            Post postRegistered = postService.create(post, topic, user);
             return ResponseEntity.ok().body(postRegistered);
         } else {
             return ResponseEntity.status(401).build();
         }
     }
 
-    @GetMapping("/post")
+    @GetMapping("")
     public ResponseEntity<?> getPostsSubscribe(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -80,7 +79,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable("id") Long id) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

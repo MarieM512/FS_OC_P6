@@ -39,14 +39,9 @@ public class TopicController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllTopics(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            List<Topic> topics = topicService.getAllTopics();
-            return ResponseEntity.ok(topics);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<?> getAllTopics() {
+        List<Topic> topics = topicService.getAllTopics();
+        return ResponseEntity.ok(topics);
     }
 
     @PutMapping("/subscribe")
