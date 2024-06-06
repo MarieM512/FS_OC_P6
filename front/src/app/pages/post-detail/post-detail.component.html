@@ -16,8 +16,13 @@
     
     <hr>
     
-    <div class="comment-container">
+    <div>
         <p>Commentaires</p>
+    </div>
+
+    <div *ngFor="let comment of comments$ | async" class="comment-container">
+        <p>{{ comment.user.username }}</p>
+        <p>{{ comment.content }}</p>
     </div>
     
     <div class="new-comment">

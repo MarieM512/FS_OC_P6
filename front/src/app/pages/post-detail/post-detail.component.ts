@@ -15,6 +15,7 @@ import { PostService } from 'src/app/services/post.service';
 export class PostDetailComponent implements OnInit {
 
   post$!: Observable<Post>
+  comments$!: Observable<Comment[]>
   postId!: number
 
   commentForm = this.formBuilder.group({
@@ -26,6 +27,7 @@ export class PostDetailComponent implements OnInit {
   ngOnInit(): void {
     this.postId = +this.route.snapshot.params["id"]
     this.post$ = this.postService.getPostById(this.postId)
+    this.comments$ = this.commentService.getCommentsById(this.postId)
   }
 
   submit() {
