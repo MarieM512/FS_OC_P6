@@ -1,1 +1,36 @@
-<p>post-detail works!</p>
+<div class="main-container">
+    <div class="header-container">
+        <button mat-icon-button routerLink="../">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>{{ (post$ | async)?.subject }}</h1>
+    </div>
+    <div class="info-container">
+        <div class="header-post">
+            <p>{{ (post$ | async)?.createdAt }}</p>
+            <p>{{ (post$ | async)?.user?.username }}</p>
+            <p>{{ (post$ | async)?.topic?.name }}</p>
+        </div>
+        <p>Content: {{ (post$ | async)?.content }}</p>
+    </div>
+    
+    <hr>
+    
+    <div class="comment-container">
+        <p>Commentaires</p>
+    </div>
+    
+    <div class="new-comment">
+        <form class="form-container" [formGroup]="commentForm" (ngSubmit)="submit()">
+            <mat-form-field fxFlex class="input">
+                <mat-label>Contenu de l'article</mat-label>
+                <textarea matInput formControlName="content"></textarea>
+            </mat-form-field>
+            <div class="button-container">
+                <button mat-icon-button color="primary" type="submit" [disabled]="commentForm.invalid">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

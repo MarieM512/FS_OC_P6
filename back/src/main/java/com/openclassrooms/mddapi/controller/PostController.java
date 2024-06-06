@@ -79,7 +79,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable("id") Long id) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
