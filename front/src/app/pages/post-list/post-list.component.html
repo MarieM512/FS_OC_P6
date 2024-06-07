@@ -12,7 +12,7 @@
             <div class="info">
                 <h2>{{ post.subject }}</h2>
                 <div class="desc">
-                    <p>{{ post.createdAt | date }}</p>
+                    <p>{{ post.created_at | date: 'dd/MM/yy HH:mm' }}</p>
                     <p>{{ post.user.username }}</p>
                 </div>
                 <p>Content: {{ post.content }}</p>

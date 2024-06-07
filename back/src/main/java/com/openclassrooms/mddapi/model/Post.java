@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -36,5 +36,5 @@ public class Post {
     private User user;
 
     @CreationTimestamp
-    private Date created_at;
+    private LocalDateTime created_at;
 }

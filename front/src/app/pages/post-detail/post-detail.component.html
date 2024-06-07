@@ -9,7 +9,7 @@
     
     <div class="info-container">
         <div class="header-post">
-            <p>{{ (post$ | async)?.createdAt }}</p>
+            <p>{{ (post$ | async)?.created_at | date: 'dd/MM/yy HH:mm' }}</p>
             <p>{{ (post$ | async)?.user?.username }}</p>
             <p>{{ (post$ | async)?.topic?.name }}</p>
         </div>
