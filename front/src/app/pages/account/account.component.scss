@@ -1,5 +1,33 @@
+.account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin: 1em;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+hr {
+    margin-inline: 3em;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.title-topic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .list-container {
-    margin: 2em;
+    margin-inline: 2em;
 }
 
 .card-container {
@@ -23,4 +51,14 @@
 
 button {
     width: 150px;
+}
+
+@media (max-width: 500px) {
+    hr {
+        margin-inline: 1em;
+    }
+
+    .title-topic {
+        display: none;
+    }
 }

@@ -1,29 +1,37 @@
 <div class="main-container">
-    <h1>Profil utilisateur</h1>
-    <form class="form-container" [formGroup]="accountForm" (ngSubmit)="save()">
-        <mat-form-field fxFlex class="input">
-            <input matInput formControlName="username" placeholder="Nom d'utilisateur: {{ (user$ | async)?.username }}">
-        </mat-form-field>
-        <mat-form-field fxFlex class="input">
-            <input matInput formControlName="email" placeholder="Email: {{ (user$ | async)?.email }}">
-        </mat-form-field>
-        <mat-form-field fxFlex class="input">
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Nouveau mot de passe" formControlName="password">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-        </mat-form-field>
-        <div class="button-container">
-            <button mat-raised-button color="primary" type="submit" [disabled]="accountForm.invalid">Sauvegarder</button>
-        </div>
-    </form>
 
-    <button mat-button color="warn" (click)="logout()">Se déconnecter</button>
+    <div class="account-container">
+        <h1>Profil utilisateur</h1>
+        <form class="form-container" [formGroup]="accountForm" (ngSubmit)="save()">
+            <mat-form-field fxFlex class="input">
+                <mat-label>Nom d'utilisateur</mat-label>
+                <input matInput formControlName="username" placeholder="{{ (user$ | async)?.username }}">
+            </mat-form-field>
+            <mat-form-field fxFlex class="input">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="{{ (user$ | async)?.email }}">
+            </mat-form-field>
+            <mat-form-field fxFlex class="input">
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Nouveau mot de passe" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <div class="button">
+                <button mat-raised-button color="primary" type="submit" [disabled]="accountForm.invalid">Sauvegarder</button>
+            </div>
+        </form>
+    
+        <button mat-button color="warn" (click)="logout()">Se déconnecter</button>
+    </div>
+    
 
     <hr>
 
     <div class="topic-container">
-        <h1>Abonnements</h1>
+        <div class="title-topic">
+            <h1>Abonnements</h1>
+        </div>
 
         <mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px" class="list-container">
             <mat-grid-tile *ngFor="let topic of topics$ | async" class="card-container">
