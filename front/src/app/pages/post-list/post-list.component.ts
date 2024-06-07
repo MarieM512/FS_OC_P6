@@ -21,17 +21,13 @@ export class PostListComponent implements OnInit {
       next(value) {
         value.forEach((post) => {
           console.log(post)
+          console.log(post.created_at)
         })
       },
     })
-    console.log(this.posts$)
   }
 
   create() {
     this.router.navigate(['/posts/create'])
-  }
-
-  detail(post: Post) {
-    console.log(post)
   }
 }
