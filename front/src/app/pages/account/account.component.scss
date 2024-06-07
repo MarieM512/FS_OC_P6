@@ -1,0 +1,64 @@
+.account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin: 1em;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+hr {
+    margin-inline: 3em;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.title-topic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.list-container {
+    margin-inline: 2em;
+}
+
+.card-container {
+    background-color: #F5F5F5;
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 2em;
+    justify-content: space-evenly;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: 150px;
+}
+
+@media (max-width: 500px) {
+    hr {
+        margin-inline: 1em;
+    }
+
+    .title-topic {
+        display: none;
+    }
+}
