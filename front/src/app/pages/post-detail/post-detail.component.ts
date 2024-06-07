@@ -31,13 +31,14 @@ export class PostDetailComponent implements OnInit {
   }
 
   submit() {
-    console.log("submit")
     const comment = this.commentForm.value as Comment
     this.commentService.create(this.postId, comment.content).subscribe({
-      next: (response) => {
-        console.log("ok")
+      next(value) {
+          window.location.reload()
       },
-      error: error => console.log(error)
+      error(err) {
+          console.log(err)
+      },
     });
   }
 }
