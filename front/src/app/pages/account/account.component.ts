@@ -34,7 +34,7 @@ export class AccountComponent implements OnInit {
     const account = this.accountForm.value as UserUpdate
     this.authService.updateUser(account).subscribe({
       next(value) {
-          console.log(value)
+        window.location.reload()
       },
       error(err) {
           console.log(err)
