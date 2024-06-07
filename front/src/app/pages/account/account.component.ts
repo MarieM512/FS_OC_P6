@@ -18,6 +18,7 @@ export class AccountComponent implements OnInit {
   topics$!: Observable<Topic[]>
   hide = true
   breakpoint!: number
+  onError = ''
 
   accountForm = this.formBuilder.group({
     username: ['', [Validators.minLength(3)]],
@@ -39,9 +40,7 @@ export class AccountComponent implements OnInit {
       next(value) {
         window.location.reload()
       },
-      error(err) {
-          console.log(err)
-      },
+      error: error => this.onError = error.error
     })
   }
 

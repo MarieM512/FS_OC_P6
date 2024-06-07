@@ -33,6 +33,11 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
+    /**
+     * Endpoint to create a new user
+     * @param user information about the user
+     * @return token to authenticated
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO user) {
         if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
@@ -49,6 +54,11 @@ public class AuthController {
         }
     }
 
+    /**
+     * Endpoint to login a user already registered
+     * @param user information about the user
+     * @return token to authenticated
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
         if (user.getEmail() == null || user.getPassword() == null) {
@@ -62,54 +72,52 @@ public class AuthController {
         }
     }
 
+    /**
+     * Endpoint to retrieve all informations about the current user
+     * @param request token for authorisation
+     * @return user information about the user
+     */
     @GetMapping("/me")
-    public ResponseEntity<?> getUser(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String email = jwtService.decodeToken(token);
-            User user = userService.getUser(email);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
-        // System.out.print(request.getUserPrincipal().getName());
-        // return ResponseEntity.ok("ok");
+    public ResponseEntity<User> getUser(HttpServletRequest request) {
+        String email = request.getUserPrincipal().getName();
+        User user = userService.getUser(email);
+        return ResponseEntity.ok(user);
     }
 
+    /**
+     * Endpoint to update information about the user
+     * @param request token for authorisation
+     * @param user new information about the user
+     * @return nothing
+     */
     @PutMapping("/me")
-    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UserRegisterDTO user) { // TODO: check le token
+    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UserRegisterDTO user) {
         Boolean isNewPassword = false;
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String emailToken = jwtService.decodeToken(token);
-            User currentUser = userService.getUser(emailToken);
+        String email = request.getUserPrincipal().getName();
+        User currentUser = userService.getUser(email);
 
-            if (!user.getUsername().isEmpty()) {
-                currentUser.setUsername(user.getUsername());
-            }
-
-            if (!user.getEmail().isEmpty()) {
-                if (userService.isUserEmailExists(user.getEmail())) {
-                    return ResponseEntity.status(409).body("Email already exist");
-                } else {
-                    currentUser.setEmail(user.getEmail());
-                }
-            }
-
-            if (!user.getPassword().isEmpty()) {
-                if (!userService.isValidPassword(user.getPassword())) {
-                    return ResponseEntity.badRequest().body("Password does not meet the conditions");
-                } else {
-                    isNewPassword = true;
-                    currentUser.setPassword(user.getPassword());
-                }
-            }
-            User userRegistered = userService.updateUser(currentUser, isNewPassword);
-            return ResponseEntity.ok(userRegistered);
-        } else {
-            return ResponseEntity.status(401).build();
+        if (!user.getUsername().isEmpty()) {
+            currentUser.setUsername(user.getUsername());
         }
+
+        if (!user.getEmail().isEmpty()) {
+            if (userService.isUserEmailExists(user.getEmail())) {
+                return ResponseEntity.status(409).body("Email already exist");
+            } else {
+                currentUser.setEmail(user.getEmail());
+            }
+        }
+
+        if (!user.getPassword().isEmpty()) {
+            if (!userService.isValidPassword(user.getPassword())) {
+                return ResponseEntity.badRequest().body("Password does not meet the conditions");
+            } else {
+                isNewPassword = true;
+                currentUser.setPassword(user.getPassword());
+            }
+        }
+
+        userService.updateUser(currentUser, isNewPassword);
+        return ResponseEntity.ok().build();
     }
 }

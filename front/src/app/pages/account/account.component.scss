@@ -53,6 +53,13 @@ button {
     width: 150px;
 }
 
+.error-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    color: crimson;
+}
+
 @media (max-width: 500px) {
     hr {
         margin-inline: 1em;
