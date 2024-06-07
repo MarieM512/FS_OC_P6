@@ -31,7 +31,6 @@ export class AccountComponent implements OnInit {
   }
 
   save() {
-    console.log("saved")
     const account = this.accountForm.value as UserUpdate
     this.authService.updateUser(account).subscribe({
       next(value) {
@@ -51,7 +50,7 @@ export class AccountComponent implements OnInit {
   unsubscribe(topic: Topic) {
     this.topicService.unsubscribe(topic).subscribe({
       next(value) {
-          console.log("unsubscribe")
+        window.location.reload()
       },
       error(err) {
           console.log(err)
