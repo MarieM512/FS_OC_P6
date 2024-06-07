@@ -17,6 +17,7 @@ export class AccountComponent implements OnInit {
   user$ = this.authService.getUser()
   topics$!: Observable<Topic[]>
   hide = true
+  breakpoint!: number
 
   accountForm = this.formBuilder.group({
     username: ['', [Validators.minLength(3)]],
@@ -28,6 +29,8 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.topics$ = this.user$.pipe(map(user => user.topics))
+
+    this.breakpoint = (window.innerWidth <= 500) ? 1 : 2
   }
 
   save() {
@@ -56,5 +59,9 @@ export class AccountComponent implements OnInit {
           console.log(err)
       },
     })
+  }
+
+  onResize(event: any) {
+    this.breakpoint = (event.target.innerWidth <= 500) ? 1 : 2
   }
 }

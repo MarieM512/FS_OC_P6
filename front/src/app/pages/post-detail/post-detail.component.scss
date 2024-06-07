@@ -27,15 +27,35 @@
     margin: 1em;
 }
 
+.scroll-comment {
+    padding-bottom: 20%;
+}
+
 @media (max-width: 500px) {
+    .main-container {
+        margin-inline: 1em;
+    }
     hr {
         margin-inline: 1em;
     }
+    .comment-container {
+        flex-direction: row-reverse;
+        align-items: flex-end;
+        
+        span {
+            background-color: transparent;
+            align-self: self-start;
+        }
+    }
 }
 
-.main-container {
-    margin-inline: 5em;
+@media (min-width: 501px) {
+    .main-container {
+        margin-inline: 5em;
+    }
 }
+
+
 
 .comment {
     display: flex;
@@ -49,14 +69,20 @@
 }
 
 .form-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+   
 }
 
 .input {
-    width: 100%;
+    width: 70%;
 }
 
 span {

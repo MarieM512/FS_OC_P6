@@ -23,12 +23,13 @@
     </div>
 
     <div class="comment">
-        <div *ngFor="let comment of comments$ | async" class="comment-container">
-            <p>{{ comment.user.username }}</p>
-            <span>{{ comment.content }}</span>
+        <div class="scroll-comment">
+            <div *ngFor="let comment of comments$ | async" class="comment-container">
+                <p>{{ comment.user.username }}</p>
+                <span>{{ comment.content }}</span>
+            </div>
         </div>
         
-        <div class="new-comment">
             <form class="form-container" [formGroup]="commentForm" (ngSubmit)="submit()">
                 <mat-form-field fxFlex class="input">
                     <mat-label>Contenu de l'article</mat-label>
@@ -40,7 +41,6 @@
                     </button>
                 </div>
             </form>
-        </div>
     </div>
     
 </div>
