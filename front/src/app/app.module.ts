@@ -19,7 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TopicListComponent } from './pages/topic-list/topic-list.component';
 import { AccountComponent } from './pages/account/account.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
-import { JwtInterceptor } from './configuration/jwt.interceptor';
+import { JwtInterceptor } from './configuration/interceptor/jwt.interceptor';
 import { PostDetailComponent } from './pages/post-detail/post-detail.component';
 
 @NgModule({
