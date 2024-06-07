@@ -79,25 +79,34 @@ public class AuthController {
 
     @PutMapping("/me")
     public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UserRegisterDTO user) { // TODO: check le token
+        Boolean isNewPassword = false;
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
             String emailToken = jwtService.decodeToken(token);
             User currentUser = userService.getUser(emailToken);
 
-            if (userService.isUserEmailExists(user.getEmail())) {
-                return ResponseEntity.status(409).body("Email already exist");
+            if (!user.getUsername().isEmpty()) {
+                currentUser.setUsername(user.getUsername());
             }
 
-            if (!userService.isValidPassword(user.getPassword())) {
-                return ResponseEntity.badRequest().body("Password does not meet the conditions");
+            if (!user.getEmail().isEmpty()) {
+                if (userService.isUserEmailExists(user.getEmail())) {
+                    return ResponseEntity.status(409).body("Email already exist");
+                } else {
+                    currentUser.setEmail(user.getEmail());
+                }
             }
 
-            currentUser.setUsername(user.getUsername());
-            currentUser.setEmail(user.getEmail());
-            currentUser.setPassword(user.getPassword());
-
-            User userRegistered = userService.updateUser(currentUser);
+            if (!user.getPassword().isEmpty()) {
+                if (!userService.isValidPassword(user.getPassword())) {
+                    return ResponseEntity.badRequest().body("Password does not meet the conditions");
+                } else {
+                    isNewPassword = true;
+                    currentUser.setPassword(user.getPassword());
+                }
+            }
+            User userRegistered = userService.updateUser(currentUser, isNewPassword);
             return ResponseEntity.ok(userRegistered);
         } else {
             return ResponseEntity.status(401).build();

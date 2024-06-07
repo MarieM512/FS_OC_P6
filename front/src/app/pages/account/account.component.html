@@ -1,1 +1,40 @@
-<p>account works!</p>
+<div class="main-container">
+    <h1>Profil utilisateur</h1>
+    <form class="form-container" [formGroup]="accountForm" (ngSubmit)="save()">
+        <mat-form-field fxFlex class="input">
+            <input matInput formControlName="username" placeholder="Nom d'utilisateur: {{ (user$ | async)?.username }}">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <input matInput formControlName="email" placeholder="Email: {{ (user$ | async)?.email }}">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Nouveau mot de passe" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="accountForm.invalid">Sauvegarder</button>
+        </div>
+    </form>
+
+    <button mat-button color="warn" (click)="logout()">Se déconnecter</button>
+
+    <hr>
+
+    <div class="topic-container">
+        <h1>Abonnements</h1>
+
+        <mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px" class="list-container">
+            <mat-grid-tile *ngFor="let topic of topics$ | async" class="card-container">
+                <div class="info">
+                    <h2>{{ topic.name }}</h2>
+                    <p>Description: {{ topic.description }}</p>
+                    <div class="button">
+                        <button mat-raised-button color="primary" (click)="unsubscribe(topic)">Se désabonner</button>
+                    </div>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</div>

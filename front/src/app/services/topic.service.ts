@@ -19,4 +19,8 @@ export class TopicService {
   public subscribe(topic: Topic): Observable<void> {
     return this.httpClient.put<void>(`${this.pathService}/subscribe`, topic)
   }
+
+  public unsubscribe(topic: Topic): Observable<void> {
+    return this.httpClient.put<void>(`${this.pathService}/unsubscribe`, topic)
+  }
 }

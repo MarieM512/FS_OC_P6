@@ -55,7 +55,7 @@ public class TopicController {
             List<Topic> currentTopicList = user.getTopics();
             currentTopicList.add(topic);
             user.setTopics(currentTopicList);
-            userService.updateUser(user);
+            userService.updateUser(user, false);
 
             return ResponseEntity.ok(user);
         } else {
@@ -74,7 +74,7 @@ public class TopicController {
             List<Topic> currentTopicList = user.getTopics();
             currentTopicList.remove(topic);
             user.setTopics(currentTopicList);
-            userService.updateUser(user);
+            userService.updateUser(user, false);
             
             return ResponseEntity.ok(user);
         } else {

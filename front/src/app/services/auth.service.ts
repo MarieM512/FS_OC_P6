@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { LoginRequest } from '../interfaces/request/loginRequest.interface';
 import { LogResponse } from '../interfaces/response/logResponse.interface';
 import { User } from '../interfaces/response/user.interface';
+import { UserUpdate } from '../interfaces/response/userUpdate.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class AuthService {
 
   public getUser(): Observable<User> {
     return this.httpClient.get<User>(`${this.pathService}/me`)
+  }
+
+  public updateUser(user: UserUpdate): Observable<void> {
+    return this.httpClient.put<void>(`${this.pathService}/me`, user)
   }
 
   public isAuthenticated(): boolean {
