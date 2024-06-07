@@ -58,7 +58,12 @@ public class PostController {
                 return ResponseEntity.badRequest().body("Please fill all fields");
             }
             Topic topic = topicService.getTopicById(post.getTopicId());
-            Post postRegistered = postService.create(post, topic, user);
+            Post postIntern = new Post();
+            postIntern.setTopic(topic);
+            postIntern.setUser(user);
+            postIntern.setSubject(post.getSubject());
+            postIntern.setContent(post.getContent());
+            Post postRegistered = postService.create(postIntern);
             return ResponseEntity.ok().body(postRegistered);
         } else {
             return ResponseEntity.status(401).build();
