@@ -1,4 +1,4 @@
-<mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px" class="list-container">
+<mat-grid-list [cols]="breakpoint" rowHeight="2:1" gutterSize="20px" class="list-container" (window:resize)="onResize($event)">
     <mat-grid-tile *ngFor="let topic of topics$ | async" class="card-container">
         <div class="info">
                 <h2>{{ topic.name }}</h2>

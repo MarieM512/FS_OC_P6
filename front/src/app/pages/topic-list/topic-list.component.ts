@@ -13,6 +13,7 @@ export class TopicListComponent implements OnInit {
   topics$ = this.topicService.getTopics()
   user$ = this.authService.getUser()
   userTopic: Topic[] = []
+  breakpoint!: number
 
   constructor(private topicService: TopicService, private authService: AuthService) { }
 
@@ -22,6 +23,8 @@ export class TopicListComponent implements OnInit {
         this.userTopic = user.topics
       }
     })
+
+    this.breakpoint = (window.innerWidth <= 500) ? 1 : 2
   }
 
   subscribe(topic: Topic) {
@@ -37,5 +40,9 @@ export class TopicListComponent implements OnInit {
 
   isSubscribed(topicId: number) {
     return this.userTopic.find((topic) => topic.id === topicId)
+  }
+
+  onResize(event: any) {
+    this.breakpoint = (event.target.innerWidth <= 500) ? 1 : 2
   }
 }
