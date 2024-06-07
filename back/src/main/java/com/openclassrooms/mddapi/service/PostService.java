@@ -27,10 +27,10 @@ public class PostService {
         this.modelMapper = modelMapper;
     }
 
-    public Post create(PostDTO postDTO, Topic topic, User user) {
-        Post post = registerDtoToEntity(postDTO);
-        post.setTopic(topic);
-        post.setUser(user);
+    public Post create(Post post) {
+        // Post post = registerDtoToEntity(postDTO);
+        // post.setTopic(topic);
+        // post.setUser(user);
         return postRepository.save(post);
     }
 
