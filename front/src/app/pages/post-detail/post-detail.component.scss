@@ -6,15 +6,63 @@
 
     h1 {
         margin: 0;
+        font-weight: bold;
     }
+}
+
+.info-container {
+    margin-top: 1em;
 }
 
 .header-post {
     display: flex;
     flex-direction: row;
+    gap: 2em;
 }
 
 .comment-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    margin: 1em;
+}
+
+@media (max-width: 500px) {
+    hr {
+        margin-inline: 1em;
+    }
+}
+
+.main-container {
+    margin-inline: 5em;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-inline: 2em;
+
+    p {
+        width: 20%;
+    }
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+}
+
+span {
+    background-color: #EFEFEF;
+    border-radius: 16px;
+    width: 80%;
+    align-self: center;
+    padding: 21px;
 }
