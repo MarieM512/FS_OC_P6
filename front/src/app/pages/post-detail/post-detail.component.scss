@@ -38,6 +38,15 @@
     hr {
         margin-inline: 1em;
     }
+    .comment-container {
+        flex-direction: row-reverse;
+        align-items: flex-end;
+        
+        span {
+            background-color: transparent;
+            align-self: self-start;
+        }
+    }
 }
 
 @media (min-width: 501px) {
