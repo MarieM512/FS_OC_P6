@@ -120,4 +120,17 @@ public class AuthController {
         userService.updateUser(currentUser, isNewPassword);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Endpoint to verify if the current token is valid
+     * @param request token
+     * @return true if the token is always valid or false if the token is not valid
+     */
+    @GetMapping("/token")
+    public ResponseEntity<Boolean> isTokenValid(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        String token = bearerToken.substring(7);
+        Boolean isTokenValid = jwtService.isTokenValid(token);
+        return ResponseEntity.ok(isTokenValid);
+    }
 }

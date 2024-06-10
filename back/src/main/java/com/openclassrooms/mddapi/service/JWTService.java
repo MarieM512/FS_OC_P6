@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,5 +39,15 @@ public class JWTService {
     public String decodeToken(String token) {
         Jwt jwt = jwtDecoder.decode(token);
         return jwt.getSubject();
+    }
+
+    public Boolean isTokenValid(String token) {
+        try {
+            Jwt decodedJwt = jwtDecoder.decode(token);
+            return decodedJwt.getExpiresAt().isAfter(Instant.now());
+        } catch (JwtException e) {
+            System.out.println("Error - isTokenValid" + e);
+            return false;
+        }
     }
 }
