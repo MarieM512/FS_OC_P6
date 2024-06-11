@@ -45,53 +45,52 @@ public class PostController {
         this.jwtService = jwtService;
     }
 
+    /**
+     * Endpoint to create a post
+     * @param request token for authorisation
+     * @param post information about the new post
+     * @return
+     */
     @PostMapping("")
     public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody PostDTO post) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String email = jwtService.decodeToken(token);
-            User user = userService.getUser(email);
-            
-            if (post.getTopicId() == null || post.getSubject().isEmpty() || post.getContent().isEmpty()) { // TODO: check empty fields in front
-                System.out.println(post);
-                return ResponseEntity.badRequest().body("Please fill all fields");
-            }
-            Topic topic = topicService.getTopicById(post.getTopicId());
-            Post postIntern = new Post();
-            postIntern.setTopic(topic);
-            postIntern.setUser(user);
-            postIntern.setSubject(post.getSubject());
-            postIntern.setContent(post.getContent());
-            Post postRegistered = postService.create(postIntern);
-            return ResponseEntity.ok().body(postRegistered);
-        } else {
-            return ResponseEntity.status(401).build();
+        String email = request.getUserPrincipal().getName();
+        User user = userService.getUser(email);
+
+        if (post.getTopicId() == null || post.getSubject().isEmpty() || post.getContent().isEmpty()) {
+            System.out.println(post);
+            return ResponseEntity.badRequest().body("Please fill all fields");
         }
+        Topic topic = topicService.getTopicById(post.getTopicId());
+        Post postIntern = new Post();
+        postIntern.setTopic(topic);
+        postIntern.setUser(user);
+        postIntern.setSubject(post.getSubject());
+        postIntern.setContent(post.getContent());
+        postService.create(postIntern);
+        return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint to get all posts the user subscribed
+     * @param request token for authorisation
+     * @return list of posts
+     */
     @GetMapping("")
-    public ResponseEntity<?> getPostsSubscribe(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String email = jwtService.decodeToken(token);
-            User user = userService.getUser(email);
-            List<Post> posts = postService.getPostsSubscribe(user.getTopics());
-            return ResponseEntity.ok(posts);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<List<Post>> getPostsSubscribe(HttpServletRequest request) {
+        String email = request.getUserPrincipal().getName();
+        User user = userService.getUser(email);
+        List<Post> posts = postService.getPostsSubscribe(user.getTopics());
+        return ResponseEntity.ok(posts);
     }
 
+    /**
+     * Endpoint to get a specific post by his id
+     * @param id identification of the post
+     * @return post
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable("id") Long id) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            Post post = postService.getPostById(id);
-            return ResponseEntity.ok(post);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
+        Post post = postService.getPostById(id);
+        return ResponseEntity.ok(post);
     }
 }

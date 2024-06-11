@@ -13,8 +13,8 @@ export class PostService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public create(postRequest: PostRequest): Observable<Post> {
-    return this.httpClient.post<Post>(this.pathService, postRequest)
+  public create(postRequest: PostRequest): Observable<void> {
+    return this.httpClient.post<void>(this.pathService, postRequest)
   }
 
   public getPosts(): Observable<Post[]> {
