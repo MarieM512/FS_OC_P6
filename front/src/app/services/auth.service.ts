@@ -32,8 +32,18 @@ export class AuthService {
     return this.httpClient.put<void>(`${this.pathService}/me`, user)
   }
 
+  public isTokenValid(): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.pathService}/token`)
+  }
+
   public isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    var isValid = false
+    this.isTokenValid().subscribe({
+      next: (value) => {
+        isValid = value
+      }
+    })
+    return (isValid || !!localStorage.getItem('token'))
   }
 
   public logout(): void {

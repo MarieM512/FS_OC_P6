@@ -20,6 +20,9 @@
             <div class="button">
                 <button mat-raised-button color="primary" type="submit" [disabled]="accountForm.invalid">Sauvegarder</button>
             </div>
+            <div class="error-container">
+                <p *ngIf="onError" class="error">{{ onError }}</p>
+            </div>
         </form>
     
         <button mat-button color="warn" (click)="logout()">Se déconnecter</button>

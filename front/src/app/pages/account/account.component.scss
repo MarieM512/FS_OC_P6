@@ -40,7 +40,7 @@ h1 {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    margin: 2em;
+    padding: 2em;
     justify-content: space-evenly;
 }
 
@@ -51,6 +51,13 @@ h1 {
 
 button {
     width: 150px;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    color: crimson;
 }
 
 @media (max-width: 500px) {

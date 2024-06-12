@@ -20,6 +20,13 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
     
+    /**
+     * Permit to create a comment
+     * @param content of the commment
+     * @param user that post the comment
+     * @param post that link to the comment
+     * @return comment
+     */
     public Comment create(String content, User user, Post post) {
         Comment comment = new Comment();
         comment.setUser(user);
@@ -28,6 +35,11 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    /**
+     * Permit to get list of comments from a specific post
+     * @param id of the post
+     * @return list of comments
+     */
     public List<Comment> getCommentsFromPost(Long id) {
         return commentRepository.findByPostId(id);
     }

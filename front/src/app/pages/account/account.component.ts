@@ -18,6 +18,7 @@ export class AccountComponent implements OnInit {
   topics$!: Observable<Topic[]>
   hide = true
   breakpoint!: number
+  onError = ''
 
   accountForm = this.formBuilder.group({
     username: ['', [Validators.minLength(3)]],
@@ -36,12 +37,14 @@ export class AccountComponent implements OnInit {
   save() {
     const account = this.accountForm.value as UserUpdate
     this.authService.updateUser(account).subscribe({
-      next(value) {
-        window.location.reload()
+      next: (value) => {
+        if (account.email.length == 0) {
+          window.location.reload()
+        } else {
+          this.logout()
+        }
       },
-      error(err) {
-          console.log(err)
-      },
+      error: error => this.onError = error.error
     })
   }
 
