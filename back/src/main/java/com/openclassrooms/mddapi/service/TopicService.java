@@ -17,18 +17,37 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
+    /**
+     * Permit to get topic by his id
+     * @param id of the topic
+     * @return topic
+     */
     public Topic getTopicById(Long id) {
         return topicRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Permit to create topic
+     * @param topic informations
+     * @return topic
+     */
     public Topic create(Topic topic) {
         return topicRepository.save(topic);
     }
 
+    /**
+     * Permit to get topic by his name
+     * @param name of the topic
+     * @return topic
+     */
     public Topic getTopicByName(String name) {
         return topicRepository.findByName(name);
     }
 
+    /**
+     * Permit to get list of topics
+     * @return list of topics
+     */
     public List<Topic> getAllTopics() {
         return topicRepository.findAll();
     }

@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="image-container">
+        <img src="/assets/logo_p6.png" alt="logo" />
+    </div>
+    <p>{{ title }}</p>
+
+    <form *ngIf="type === 'login'" class="form-container" [formGroup]="loginForm" (ngSubmit)="submit()">
+        <mat-form-field fxFlex class="input">
+            <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+        <mat-form-field fxFlex class="input">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe"
+                formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ buttonTitle }}</button>
+        </div>
+        <div class="error-container">
+            <p *ngIf="onError" class="error">{{ onError }}</p>
+        </div>
+    </form>
+
+    <form *ngIf="type === 'signup'" class="form" [formGroup]="signupForm" (ngSubmit)="submit()">
+        <mat-form-field class="input">
+            <input matInput placeholder="Nom d'utilisateur" formControlName="username">
+        </mat-form-field>
+        <mat-form-field class="input">
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="signupEmail?.hasError('email')">Please enter a valid email address</mat-error>
+        </mat-form-field>
+        <mat-form-field class="input">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe"
+                formControlName="password">
+            <mat-error *ngIf="signupPassword?.hasError('minLength')">Must have at least 8 characters</mat-error>
+            <mat-hint align="start">Number, Capital letter, Lower case, Special character</mat-hint>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">{{ buttonTitle }}</button>
+        </div>
+        <div class="error-container">
+            <p *ngIf="onError" class="error">{{ onError }}</p>
+        </div>
+    </form>
+</div>

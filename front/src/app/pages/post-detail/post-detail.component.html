@@ -1,0 +1,46 @@
+<div class="header-container">
+    <button mat-icon-button routerLink="../">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ (post$ | async)?.subject }}</h1>
+</div>
+
+<div class="main-container">
+    
+    <div class="info-container">
+        <div class="header-post">
+            <p>{{ (post$ | async)?.created_at | date: 'dd/MM/yy HH:mm' }}</p>
+            <p>{{ (post$ | async)?.user?.username }}</p>
+            <p>{{ (post$ | async)?.topic?.name }}</p>
+        </div>
+        <p>Content: {{ (post$ | async)?.content }}</p>
+    </div>
+    
+    <hr>
+    
+    <div>
+        <p>Commentaires</p>
+    </div>
+
+    <div class="comment">
+        <div class="scroll-comment">
+            <div *ngFor="let comment of comments$ | async" class="comment-container">
+                <p>{{ comment.user.username }}</p>
+                <span>{{ comment.content }}</span>
+            </div>
+        </div>
+        
+            <form class="form-container" [formGroup]="commentForm" (ngSubmit)="submit()">
+                <mat-form-field fxFlex class="input">
+                    <mat-label>Contenu de l'article</mat-label>
+                    <textarea matInput formControlName="content"></textarea>
+                </mat-form-field>
+                <div class="button-container">
+                    <button mat-icon-button color="primary" type="submit" [disabled]="commentForm.invalid">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                </div>
+            </form>
+    </div>
+    
+</div>

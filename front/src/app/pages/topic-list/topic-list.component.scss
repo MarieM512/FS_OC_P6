@@ -1,0 +1,26 @@
+.list-container {
+    margin: 2em;
+}
+
+.card-container {
+    background-color: #F5F5F5;
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 2em;
+    justify-content: space-evenly;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: 150px;
+}

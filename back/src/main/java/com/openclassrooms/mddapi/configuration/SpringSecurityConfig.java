@@ -25,6 +25,12 @@ public class SpringSecurityConfig {
     @Value("${JWT_KEY}")
     private String jwtKey;
 
+    /**
+     * Permit to define authenticate endpoint
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -38,17 +44,29 @@ public class SpringSecurityConfig {
             .build();
     }
 
+    /**
+     * Permit to encode password
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Permit to decode jwt
+     * @return decode jwt
+     */
     @Bean
     public JwtDecoder jwtDecoder() {
         SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");
         return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
     }
 
+    /**
+     * Permit to encode jwt
+     * @return encode jwt
+     */
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));

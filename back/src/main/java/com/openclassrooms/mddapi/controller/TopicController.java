@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.TopicService;
 import com.openclassrooms.mddapi.service.UserService;
 
@@ -29,61 +28,52 @@ public class TopicController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JWTService jwtService;
-
-    public TopicController(TopicService topicService, UserService userService, JWTService jwtService) {
+    public TopicController(TopicService topicService, UserService userService) {
         this.topicService = topicService;
         this.userService = userService;
-        this.jwtService = jwtService;
     }
 
+    /**
+     * Endpoint to get all topics
+     * @return list of topic
+     */
     @GetMapping("")
-    public ResponseEntity<?> getAllTopics(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            List<Topic> topics = topicService.getAllTopics();
-            return ResponseEntity.ok(topics);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<?> getAllTopics() {
+        List<Topic> topics = topicService.getAllTopics();
+        return ResponseEntity.ok(topics);
     }
 
+    /**
+     * Endpoint to subscribe to a specific topic
+     * @param request token for authentication
+     * @param topic specific topic to subscribe
+     * @return nothing
+     */
     @PutMapping("/subscribe")
     public ResponseEntity<?> subscribe(HttpServletRequest request, @RequestBody Topic topic) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String email = jwtService.decodeToken(token);
-            User user = userService.getUser(email);
-
-            List<Topic> currentTopicList = user.getTopics();
-            currentTopicList.add(topic);
-            user.setTopics(currentTopicList);
-            userService.updateUser(user);
-
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+        String email = request.getUserPrincipal().getName();
+        User user = userService.getUser(email);
+        List<Topic> currentTopicList = user.getTopics();
+        currentTopicList.add(topic);
+        user.setTopics(currentTopicList);
+        userService.updateUser(user, false);
+        return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint to unsubscribe to a specific topic
+     * @param request token for authentication
+     * @param topic specific topic to unsubscribe
+     * @return nothing
+     */
     @PutMapping("/unsubscribe")
     public ResponseEntity<?> unsubscribe(HttpServletRequest request, @RequestBody Topic topic) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            String email = jwtService.decodeToken(token);
-            User user = userService.getUser(email);
-
-            List<Topic> currentTopicList = user.getTopics();
-            currentTopicList.remove(topic);
-            user.setTopics(currentTopicList);
-            userService.updateUser(user);
-            
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+        String email = request.getUserPrincipal().getName();
+        User user = userService.getUser(email);
+        List<Topic> currentTopicList = user.getTopics();
+        currentTopicList.remove(topic);
+        user.setTopics(currentTopicList);
+        userService.updateUser(user, false);
+        return ResponseEntity.ok().build();
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
-import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.PostRepository;
 
 @Service
@@ -21,11 +20,20 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post create(Post post, User user) {
-        post.setUser(user);
+    /**
+     * Permit to create a post
+     * @param post to created
+     * @return post has been created
+     */
+    public Post create(Post post) {
         return postRepository.save(post);
     }
 
+    /**
+     * Permit to get list of posts that the user subscribed
+     * @param topicSub list of topics that the user subscribed
+     * @return list of posts
+     */
     public List<Post> getPostsSubscribe(List<Topic> topicSub) {
         List<Post> allPosts = postRepository.findAll();
 
@@ -46,6 +54,11 @@ public class PostService {
         return postSub;
     }
 
+    /**
+     * Permit to get a specific post by his id
+     * @param id of the post
+     * @return post
+     */
     public Post getPostById(Long id) {
         return postRepository.findById(id).orElse(null);
     }

@@ -1,7 +1,34 @@
-.center {
-  height: 100vh;
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.image-container {
+  img {
+    margin-top: 100px;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.button-container {
+  display: flex;
+  gap: 2em;
+}
+
+.button-container {
+  button {
+    width: 150px;
+  }
+}
+
+@media (max-width: 500px) {
+  .button-container {
+      height: 100vh;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+  }
 }
