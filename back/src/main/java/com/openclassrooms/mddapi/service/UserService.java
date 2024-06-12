@@ -31,16 +31,31 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Permit to convert user DTO to user entity
+     * @param userRegisterDTO to convert
+     * @return user entity
+     */
     private User registerDtoToEntity(UserRegisterDTO userRegisterDTO) {
         return modelMapper.map(userRegisterDTO, User.class);
     }
 
+    /**
+     * Permit to register a new user
+     * @param userDTO information about the new user
+     * @return user ceated
+     */
     public User register(UserRegisterDTO userDTO) {
         User user = registerDtoToEntity(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userRepository.save(user);
     }
 
+    /**
+     * Check if user email already exists
+     * @param email to check
+     * @return true if exist and false if not
+     */
     public Boolean isUserEmailExists(String email) {
         if (userRepository.findByEmail(email) == null) {
             return false;
@@ -49,6 +64,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Check if is valid password
+     * @param password to check
+     * @return true if valid and false if not
+     */
     public Boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         Pattern pattern = Pattern.compile(regex);
@@ -56,6 +76,11 @@ public class UserService {
         return matcher.matches();
     }
 
+    /**
+     * Check if the user can connect
+     * @param user information about the user
+     * @return true if he can and false if not
+     */
     public Boolean canConnect(UserLoginDTO user) {
         User userRegistered = userRepository.findByEmail(user.getEmail());
         if (userRegistered == null) {
@@ -64,10 +89,21 @@ public class UserService {
         return passwordEncoder.matches(user.getPassword(), userRegistered.getPassword());
     }
 
+    /**
+     * Permit to get user
+     * @param identifier email of the user
+     * @return user
+     */
     public User getUser(String identifier) {
         return userRepository.findByEmail(identifier);
     }
 
+    /**
+     * Permit to update information about the user
+     * @param user to update
+     * @param isNewPassword his modified password
+     * @return user updated
+     */
     public User updateUser(User user, Boolean isNewPassword) {
         User newUser = user;
         if (isNewPassword) {
