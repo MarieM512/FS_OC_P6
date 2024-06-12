@@ -15,7 +15,6 @@ import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.model.dto.PostDTO;
-import com.openclassrooms.mddapi.service.JWTService;
 import com.openclassrooms.mddapi.service.PostService;
 import com.openclassrooms.mddapi.service.TopicService;
 import com.openclassrooms.mddapi.service.UserService;
@@ -35,14 +34,10 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JWTService jwtService;
-
-    public PostController(PostService postService, TopicService topicService, UserService userService, JWTService jwtService) {
+    public PostController(PostService postService, TopicService topicService, UserService userService) {
         this.postService = postService;
         this.topicService = topicService;
         this.userService = userService;
-        this.jwtService = jwtService;
     }
 
     /**
