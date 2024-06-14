@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
-import { Topic } from 'src/app/interfaces/response/topic.interface';
+import { Observable } from 'rxjs';
 import { UserUpdate } from 'src/app/interfaces/response/userUpdate.interface';
 import { AuthService } from 'src/app/services/auth.service';
-import { TopicService } from 'src/app/services/topic.service';
 
 @Component({
   selector: 'app-account',
@@ -15,9 +13,7 @@ import { TopicService } from 'src/app/services/topic.service';
 export class AccountComponent implements OnInit {
 
   user$ = this.authService.getUser()
-  topics$!: Observable<Topic[]>
   hide = true
-  breakpoint!: number
   onError = ''
 
   accountForm = this.formBuilder.group({
@@ -26,12 +22,9 @@ export class AccountComponent implements OnInit {
     password: ['', [Validators.nullValidator, Validators.minLength(8)]]
   })
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private topicService: TopicService) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.topics$ = this.user$.pipe(map(user => user.topics))
-
-    this.breakpoint = (window.innerWidth <= 500) ? 1 : 2
   }
 
   save() {
@@ -51,20 +44,5 @@ export class AccountComponent implements OnInit {
   logout() {
     this.authService.logout()
     this.router.navigate([''])
-  }
-
-  unsubscribe(topic: Topic) {
-    this.topicService.unsubscribe(topic).subscribe({
-      next(value) {
-        window.location.reload()
-      },
-      error(err) {
-          console.log(err)
-      },
-    })
-  }
-
-  onResize(event: any) {
-    this.breakpoint = (event.target.innerWidth <= 500) ? 1 : 2
   }
 }

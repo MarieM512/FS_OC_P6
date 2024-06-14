@@ -21,9 +21,10 @@ import { AccountComponent } from './pages/account/account.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { JwtInterceptor } from './configuration/interceptor/jwt.interceptor';
 import { PostDetailComponent } from './pages/post-detail/post-detail.component';
+import { CardComponentComponent } from './component/card-component/card-component.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent, PostFormComponent, PostDetailComponent],
+  declarations: [AppComponent, HomeComponent, ConnectionComponent, PostListComponent, TopicListComponent, AccountComponent, PostFormComponent, PostDetailComponent, CardComponentComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
